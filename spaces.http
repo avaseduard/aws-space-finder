@@ -1,3 +1,9 @@
 GET https://vkyhpsnmo6.execute-api.eu-central-1.amazonaws.com/prod/spaces
 ###
 POST https://vkyhpsnmo6.execute-api.eu-central-1.amazonaws.com/prod/spaces
+content-type: application/json
+
+{
+  "location": "Paris"
+}
+###
