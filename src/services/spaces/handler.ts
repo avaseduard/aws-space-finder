@@ -5,6 +5,7 @@ import {
   Context,
 } from 'aws-lambda';
 import { postSpaces } from './PostSpaces';
+import { getSpaces } from './GetSpaces';
 
 // Initialize DynamoDb
 const ddbClient = new DynamoDBClient({});
@@ -18,11 +19,12 @@ async function handler(
   try {
     switch (event.httpMethod) {
       case 'GET':
-        message = 'Hello from GET';
-        break;
+        const getResponse = await getSpaces(event, ddbClient);
+        console.log(getResponse)
+        return getResponse;
       case 'POST':
-        const response = postSpaces(event, ddbClient);
-        return response;
+        const postResponse = await postSpaces(event, ddbClient);
+        return postResponse;
       default:
         break;
     }
