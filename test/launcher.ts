@@ -1,17 +1,14 @@
 import { handler } from '../src/services/spaces/handler';
 
-process.env.AWS_REGION = 'eu-central-1';
-process.env.TABLE_NAME = 'SpaceTable-06b417c9ef95';
-
 handler(
   {
-    httpMethod: 'GET',
+    httpMethod: 'PUT',
     queryStringParameters: {
       id: '1508f3ad-122e-4851-8d0a-f6700f95af34',
     },
-    // body: JSON.stringify({
-    //   location: 'London',
-    // }),
+    body: JSON.stringify({
+      location: 'London updated',
+    }),
   } as any,
   {} as any
 );
