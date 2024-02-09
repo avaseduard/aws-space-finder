@@ -8,6 +8,7 @@ import { postSpaces } from './PostSpaces';
 import { getSpaces } from './GetSpaces';
 import { updateSpace } from './UpdateSpace';
 import { deleteSpace } from './DeleteSpace';
+import { JsonError, MissingFieldError } from '../shared/Validator';
 
 // Initialize DynamoDb
 const ddbClient = new DynamoDBClient({});
@@ -41,6 +42,21 @@ async function handler(
     }
   } catch (error) {
     console.error(error);
+    // If there's a missing field, return personalized error
+    if (error instanceof MissingFieldError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify(error.message),
+      };
+    }
+    // If the JSON is invalid, return personalized error
+    if (error instanceof JsonError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify(error.message),
+      };
+    }
+    // If it's another error, return internal server error
     return {
       statusCode: 500,
       body: JSON.stringify(error.message),
