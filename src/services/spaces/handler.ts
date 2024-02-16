@@ -1,42 +1,37 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import {
-  APIGatewayProxyEvent,
-  APIGatewayProxyResult,
-  Context,
-} from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { postSpaces } from './PostSpaces';
 import { getSpaces } from './GetSpaces';
 import { updateSpace } from './UpdateSpace';
 import { deleteSpace } from './DeleteSpace';
 import { JsonError, MissingFieldError } from '../shared/Validator';
+import { addCorsHeader } from '../shared/Utils';
 
 // Initialize DynamoDb
 const ddbClient = new DynamoDBClient({});
 
-async function handler(
-  event: APIGatewayProxyEvent,
-  context: Context
-): Promise<APIGatewayProxyResult> {
+async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
   let message: string;
+  let response: APIGatewayProxyResult;
 
   try {
     switch (event.httpMethod) {
       case 'GET':
         const getResponse = await getSpaces(event, ddbClient);
-        console.log(getResponse);
-        return getResponse;
+        response = getResponse;
+        break;
       case 'POST':
         const postResponse = await postSpaces(event, ddbClient);
-        console.log(postResponse);
-        return postResponse;
+        response = postResponse;
+        break;
       case 'PUT':
         const putResponse = await updateSpace(event, ddbClient);
-        console.log(putResponse);
-        return putResponse;
+        response = putResponse;
+        break;
       case 'DELETE':
         const deleteResponse = await deleteSpace(event, ddbClient);
-        console.log(deleteResponse);
-        return deleteResponse;
+        response = deleteResponse;
+        break;
       default:
         break;
     }
@@ -62,11 +57,8 @@ async function handler(
       body: JSON.stringify(error.message),
     };
   }
-
-  const response: APIGatewayProxyResult = {
-    statusCode: 200,
-    body: JSON.stringify(message),
-  };
+  // Add cors header to response to avoid error
+  addCorsHeader(response);
   return response;
 }
 
