@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "deploy": "cdk deploy --all --outputs-file outputs.json"
   },
   "keywords": [],
@@ -27,8 +28,12 @@
     "@aws-sdk/credential-providers": "^3.511.0",
     "@aws-sdk/lib-dynamodb": "^3.507.0",
     "@aws-sdk/util-dynamodb": "^3.509.0",
+    "@types/jest": "^29.5.12",
     "@types/uuid": "^9.0.8",
     "aws-amplify": "^5.3.15",
+    "aws-xray-sdk-core": "^3.5.4",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "uuid": "^9.0.1"
   }
 }

@@ -8,7 +8,7 @@ async function testAuth() {
   const credentials = await service.generateTemporaryCredentials(loginResult);
   // console.log('CREDENTIALS-->', credentials);
   const buckets = await listBuckets(credentials);
-  console.log('BUCKETS-->', buckets);
+  // console.log('BUCKETS-->', buckets);
 }
 
 async function listBuckets(credentials: any) {
