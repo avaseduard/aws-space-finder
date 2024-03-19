@@ -1,5 +1,5 @@
 import exp = require('constants');
-import { handler } from '../../src/services/monitor/handler';
+import { handler } from '../../../src/services/monitor/handler';
 
 describe('Monitor lambda tests', () => {
   const fetchSpy = jest.spyOn(global, 'fetch');
